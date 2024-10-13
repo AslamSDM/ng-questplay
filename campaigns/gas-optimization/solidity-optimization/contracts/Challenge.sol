@@ -16,13 +16,16 @@ contract Challenge {
     function sumAllExceptSkip(
         uint256[] calldata array
     ) public view returns (uint256 sum) {
-        uint256 length = array.length;
-        for (uint256 i = 0; i < length; ) {
+        uint256 skip = _SKIP;
+        for (uint256 i = 0; i < array.length; ) {
             uint256 value = array[i];
-            uint256 skip = _SKIP;
             if (value != skip) {
-                require(sum + value >= sum, "Overflow");
-                sum = sum + value;
+                uint256 newSum;
+                unchecked {
+                    newSum = sum + value;
+                }
+                require(newSum >= sum, "Overflow");
+                sum = newSum;
             }
             unchecked {
                 ++i;
