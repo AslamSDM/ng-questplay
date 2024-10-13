@@ -19,12 +19,13 @@ contract Challenge {
         uint256 length = array.length;
         for (uint256 i = 0; i < length; ) {
             uint256 value = array[i];
-            if (value != _SKIP) {
+            uint256 skip = _SKIP;
+            if (value != skip) {
                 require(sum + value >= sum, "Overflow");
                 sum = sum + value;
             }
             unchecked {
-                i = i + 1;
+                ++i;
             }
         }
         return sum;
